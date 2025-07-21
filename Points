@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gymnastics Score Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 30px 20px;
+        }
+
+        .event-group {
+            margin-bottom: 25px;
+        }
+
+        .event-label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .score-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 12px;
+            font-size: 18px;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .score-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            margin: 30px -20px -30px -20px;
+            padding: 25px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .total-label {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .total-score {
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .clear-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px;
+                max-width: none;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤸‍♀️ Gymnastics Tracker</h1>
+            <p>Track your daughter's scores</p>
+        </div>
+        
+        <div class="content">
+            <div class="event-group">
+                <label class="event-label" for="vault">🏃‍♀️ Vault</label>
+                <input type="number" class="score-input" id="vault" placeholder="0.00" step="0.01" min="0" max="20">
+            </div>
+            
+            <div class="event-group">
+                <label class="event-label" for="bars">🤸‍♀️ Uneven Bars</label>
+                <input type="number" class="score-input" id="bars" placeholder="0.00" step="0.01" min="0" max="20">
+            </div>
+            
+            <div class="event-group">
+                <label class="event-label" for="beam">⚖️ Balance Beam</label>
+                <input type="number" class="score-input" id="beam" placeholder="0.00" step="0.01" min="0" max="20">
+            </div>
+            
+            <div class="event-group">
+                <label class="event-label" for="floor">💃 Floor Exercise</label>
+                <input type="number" class="score-input" id="floor" placeholder="0.00" step="0.01" min="0" max="20">
+            </div>
+        </div>
+        
+        <div class="total-section">
+            <div class="total-label">Total Score</div>
+            <div class="total-score" id="totalScore">0.00</div>
+            <button class="clear-btn" onclick="clearAll()">Clear All Scores</button>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.score-input');
+        const totalScore = document.getElementById('totalScore');
+
+        function calculateTotal() {
+            let total = 0;
+            inputs.forEach(input => {
+                const value = parseFloat(input.value) || 0;
+                total += value;
+            });
+            totalScore.textContent = total.toFixed(2);
+        }
+
+        function clearAll() {
+            inputs.forEach(input => {
+                input.value = '';
+            });
+            calculateTotal();
+        }
+
+        // Add event listeners to all inputs
+        inputs.forEach(input => {
+            input.addEventListener('input', calculateTotal);
+            input.addEventListener('change', calculateTotal);
+        });
+
+        // Initialize total
+        calculateTotal();
+    </script>
+</body>
+</html>
